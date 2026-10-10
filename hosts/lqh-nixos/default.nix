@@ -48,8 +48,6 @@
 
   # 使用另一条 LTS 分支，对照关机不断电问题。
   boot.kernelPackages = pkgs.linuxPackages_6_12;
-  # 排查期间自动启用关机末期日志转储。
-  boot.kernelParams = [ "printk.always_kmsg_dump=1" ];
   # 隔离 NVIDIA 驱动，只使用已连接显示器的 Intel 核显做关机对照。
   boot.blacklistedKernelModules = [
     "nvidia"
