@@ -13,7 +13,8 @@
     ../../modules/nixos/impermanence.nix
     ../../modules/nixos/desktop.nix
     ../../modules/nixos/gaming.nix
-    ../../modules/nixos/shellcrash.nix
+    # 关机不断电排查：暂停 shellcrash（连同 docker）。
+    # ../../modules/nixos/shellcrash.nix
     ./disko-config.nix
   ];
   networking = {
@@ -57,7 +58,13 @@
     "nouveau"
     "nova_core"
     "nvidiafb"
+    # 对齐 PVE 默认屏蔽硬件看门狗的行为。
+    "iTCO_wdt"
+    "iTCO_vendor_support"
   ];
+  # 关机不断电排查：向 PVE 对齐，停用非必要服务。
+  virtualisation.waydroid.enable = lib.mkForce false;
+  hardware.bluetooth.enable = lib.mkForce false;
 
   boot.loader = {
     efi.efiSysMountPoint = lib.mkForce "/efi";
@@ -75,7 +82,8 @@
   };
 
   virtualisation.libvirtd = {
-    enable = true;
+    # 关机不断电排查：暂停 libvirtd。
+    enable = false;
     dbus.enable = true;
   };
 
